@@ -8,12 +8,16 @@ export const getAllShops = async (req, res) => {
 
   try {
     const shopsList = await knex("shops");
-    const queriedShopsList = [];
+    let queriedShopsList = [];
 
     for (let shop of shopsList) {
       if (shop.is_active === Number(is_active)) {
         queriedShopsList.push(shop);
       }
+    }
+
+    if (!is_active) {
+      queriedShopsList = [...shopsList];
     }
 
     for (let shop of queriedShopsList) {
