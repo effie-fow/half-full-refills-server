@@ -87,7 +87,59 @@ export const getIndividualShop = async (req, res) => {
   }
 };
 
-// THEN - PATCH / DELETE
+export const updateShopDetails = async (req, res) => {
+  const {
+    name,
+    street_number,
+    street_name,
+    city,
+    postcode,
+    lat_long,
+    is_active,
+  } = req.body;
+  const id = req.params.id;
+
+  try {
+    const shop = await knex("shops").where({ id: id }).first();
+
+    if (!shop) {
+      return res.status(404).json({ message: "No shop found with that ID." });
+    }
+
+    const updatedShop = {
+      name: name,
+      street_number: street_number,
+      street_name: street_name,
+      city: city,
+      postcode: postcode,
+      lat_long: lat_long,
+      is_active: is_active,
+    };
+
+    await knex("shops").where({ id: id }).update(updatedShop);
+    const shopWithItems = await getShopItems(shop);
+
+    res.status(200).json(shopWithItems);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: `Error encountered while updating shop. ${error}` });
+  }
+};
+
+export const deleteShop = async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    await knex("shops").where({ id: id }).del();
+    return res.status(204).end();
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: `Error encountered while deleting shop. ${error}` });
+  }
+};
+
 // THEN - NOMINATIONS-ITEMS RELATIONSHIP
 // THEN - INTEGRATE INTO ADD NEW SHOP PROCESS
 
