@@ -1,6 +1,9 @@
 import initknex from "knex";
 import configuration from "../knexfile.js";
-import { filterShopsByItem } from "../utils/shop-filtering-helpers.js";
+import {
+  filterShopsByItem,
+  getShopItems,
+} from "../utils/shop-filtering-helpers.js";
 
 const knex = initknex(configuration);
 
@@ -29,27 +32,7 @@ export const getAllShops = async (req, res) => {
     }
 
     for (let shop of queriedShopsList) {
-      const shopsItemsIds = await knex("shops_items").where(
-        "shops_id",
-        shop.id
-      );
-
-      const shopIdsList = [];
-
-      for (let i = 0; i < shopsItemsIds.length; i++) {
-        let itemId = shopsItemsIds[i].items_id;
-        shopIdsList.push(itemId);
-      }
-
-      const shopsItemsAsObjects = await knex("items")
-        .whereIn("id", shopIdsList)
-        .select("name");
-
-      const shopItems = shopsItemsAsObjects.map((itemObject) => {
-        return itemObject.name;
-      });
-
-      shop.items = shopItems;
+      shop = await getShopItems(shop);
     }
 
     if (city) {
@@ -84,8 +67,27 @@ export const getAllShops = async (req, res) => {
   }
 };
 
-// NEXT - NO QUERYING BY ITEMS IF THE SHOP IS NOT ACTIVE
-// THEN - PATCH / ADD / DELETE\
+export const getIndividualShop = async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const shop = await knex("shops").where({ id: id }).first();
+
+    if (!shop) {
+      return res.status(404).json({ message: "No shop found with that ID." });
+    }
+
+    const shopWithItems = await getShopItems(shop);
+
+    res.status(200).json(shopWithItems);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: `Error whilst fetching shop from server. ${error}` });
+  }
+};
+
+// THEN - PATCH / DELETE
 // THEN - NOMINATIONS-ITEMS RELATIONSHIP
 // THEN - INTEGRATE INTO ADD NEW SHOP PROCESS
 
