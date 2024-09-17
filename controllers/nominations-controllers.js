@@ -7,6 +7,12 @@ export const getShopNominations = async (req, res) => {
   const id = req.params.id;
 
   try {
+    const selectedShop = await knex("shops").where({ id: id }).first();
+
+    if (!selectedShop) {
+      return res.status(404).json({ message: `No shop found with that ID.` });
+    }
+
     const nominations = await knex("nominations")
       .where({ shops_id: id })
       .select("id", "shops_id");
@@ -35,6 +41,12 @@ export const addShopNomination = async (req, res) => {
   };
 
   try {
+    const selectedShop = await knex("shops").where({ id: id }).first();
+
+    if (!selectedShop) {
+      return res.status(404).json({ message: `No shop found with that ID.` });
+    }
+
     const nominationId = await knex("nominations")
       .insert(nominationsShopData)
       .returning("id");

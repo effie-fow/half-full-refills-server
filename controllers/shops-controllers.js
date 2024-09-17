@@ -131,6 +131,12 @@ export const deleteShop = async (req, res) => {
   const id = req.params.id;
 
   try {
+    const selectedShop = await knex("shops").where({ id: id }).first();
+
+    if (!selectedShop) {
+      return res.status(404).json({ message: `No shop found with that ID.` });
+    }
+
     await knex("shops").where({ id: id }).del();
     return res.status(204).end();
   } catch (error) {
