@@ -41,5 +41,15 @@ export async function seed(knex) {
       lat_long: "50.8214, 0.1417",
       is_active: "0",
     },
+    {
+      id: 5,
+      name: "Test5",
+      street_number: "5",
+      street_name: "Test5",
+      city: "London",
+      postcode: "NW1 1AE",
+      lat_long: "50.8214, 0.1417",
+      is_active: "1",
+    },
   ]);
 }
