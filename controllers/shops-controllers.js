@@ -140,9 +140,6 @@ export const deleteShop = async (req, res) => {
   }
 };
 
-// THEN - NOMINATIONS-ITEMS RELATIONSHIP
-// THEN - INTEGRATE INTO ADD NEW SHOP PROCESS
-
 export const addShop = async (req, res) => {
   const { name, street_number, street_name, city, postcode, lat_long } =
     req.body;

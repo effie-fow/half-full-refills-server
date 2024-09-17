@@ -5,7 +5,7 @@ const knex = initknex(configuration);
 
 export const filterShopsByItem = (items, queriedShopsList, matchType) => {
   const filteredShops = [];
-  const queryItems = items.split("-");
+  const queryItems = items.split(",");
 
   for (let shop of queriedShopsList) {
     const shopItems = shop.items;
