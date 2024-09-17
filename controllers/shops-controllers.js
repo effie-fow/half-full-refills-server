@@ -5,7 +5,7 @@ import { filterShopsByItem } from "../utils/shop-filtering-helpers.js";
 const knex = initknex(configuration);
 
 export const getAllShops = async (req, res) => {
-  const { is_active, items } = req.query;
+  const { is_active, items, match_type } = req.query;
 
   try {
     const shopsList = await knex("shops");
@@ -45,12 +45,27 @@ export const getAllShops = async (req, res) => {
       shop.items = shopItems;
     }
 
-    if (!items) {
+    if (!items && !match_type) {
       return res.status(200).json(queriedShopsList);
     }
 
-    const filteredShops = filterShopsByItem(items, queriedShopsList);
+    if (items && !match_type) {
+      return res
+        .status(400)
+        .json(
+          "Item queries must include a 'match_type' parameter of eiter 'exact' or 'partial'."
+        );
+    }
+
+    const filteredShops = filterShopsByItem(
+      items,
+      queriedShopsList,
+      match_type
+    );
+
     res.status(200).json(filteredShops);
+    // NEXT - NO QUERYING BY ITEMS IF THE SHOP IS NOT ACTIVE
+    // THEN - PATCH / ADD / DELETE
   } catch (error) {
     res.status(500).json({
       message: `Error encountered whilst querying the database: ${error}`,
