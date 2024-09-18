@@ -161,11 +161,52 @@ export const addShop = async (req, res) => {
   };
 
   try {
-    await knex("shops").insert(newShop);
+    const newShopId = await knex("shops").insert(newShop).returning("id");
+    newShop.id = newShopId[0];
     res.status(201).json(newShop);
   } catch (error) {
     res
       .status(500)
       .json({ message: `Error encountered while adding new shop. ${error}` });
+  }
+};
+
+export const addShopsItems = async (req, res) => {
+  const { shops_id, items_id } = req.body;
+
+  if (!shops_id || !items_id) {
+    res.status(400).json({
+      message: `A shop and item ID must both be included to add a shop item.`,
+    });
+  }
+
+  const selectedShop = await knex("shops").where({ id: shops_id }).first();
+
+  if (!selectedShop) {
+    return res
+      .status(404)
+      .json({ message: `No shop found with ID of ${shops_id}.` });
+  }
+
+  const selectedItem = await knex("items").where({ id: items_id }).first();
+
+  if (!selectedItem) {
+    return res
+      .status(404)
+      .json({ message: `No item found with ID of ${items_id}.` });
+  }
+
+  const shopItem = {
+    shops_id: shops_id,
+    items_id: items_id,
+  };
+
+  try {
+    await knex("shops_items").insert(shopItem);
+    res.status(201).json(shopItem);
+  } catch (error) {
+    res.status(500).json({
+      message: `Error encountered while adding items to shop. ${error}`,
+    });
   }
 };

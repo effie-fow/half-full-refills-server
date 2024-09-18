@@ -1,0 +1,1 @@
+_Please note, this is a work in progress. The site is being created as a 'Capstone' project, as part of a BrainStation Software Engineering Bootcamp. [The Client Repo and full README.md for this project can be found here](https://github.com/effie-fow/half-full-refills-client)_
