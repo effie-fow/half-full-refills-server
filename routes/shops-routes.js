@@ -12,9 +12,9 @@ const router = express.Router();
 
 router.get("/", getAllShops);
 router.get("/:id", getIndividualShop);
-router.put("/", addShop);
+router.post("/", addShop);
 router.patch("/:id", updateShopDetails);
 router.delete("/:id", deleteShop);
-router.put("/items", addShopsItems);
+router.post("/items", addShopsItems);
 
 export default router;

@@ -3,12 +3,14 @@ import {
   getShopNominations,
   addShopNomination,
   deleteNomination,
+  getNominationsItems,
 } from "../controllers/nominations-controllers.js";
 
 const router = express.Router();
 
-router.get("/:id/nominations", getShopNominations);
-router.put("/:id/nominations", addShopNomination);
-router.delete("/nominations/:nominationId", deleteNomination);
+router.get("/:id", getShopNominations);
+router.post("/:id", addShopNomination);
+router.delete("/:nominationId", deleteNomination);
+router.get("/:nominationId/items", getNominationsItems);
 
 export default router;

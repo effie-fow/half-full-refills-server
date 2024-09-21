@@ -88,15 +88,8 @@ export const getIndividualShop = async (req, res) => {
 };
 
 export const updateShopDetails = async (req, res) => {
-  const {
-    name,
-    street_number,
-    street_name,
-    city,
-    postcode,
-    lat_long,
-    is_active,
-  } = req.body;
+  const { name, street_number, street_name, city, postcode, is_active } =
+    req.body;
   const id = req.params.id;
 
   try {
@@ -112,7 +105,6 @@ export const updateShopDetails = async (req, res) => {
       street_name: street_name,
       city: city,
       postcode: postcode,
-      lat_long: lat_long,
       is_active: is_active,
     };
 
@@ -147,8 +139,7 @@ export const deleteShop = async (req, res) => {
 };
 
 export const addShop = async (req, res) => {
-  const { name, street_number, street_name, city, postcode, lat_long } =
-    req.body;
+  const { name, street_number, street_name, city, postcode } = req.body;
 
   const newShop = {
     name: name,
@@ -156,7 +147,6 @@ export const addShop = async (req, res) => {
     street_name: street_name,
     city: city,
     postcode: postcode,
-    lat_long: lat_long,
     is_active: false,
   };
 

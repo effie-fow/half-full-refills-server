@@ -47,9 +47,9 @@ export const addShopNomination = async (req, res) => {
       return res.status(404).json({ message: `No shop found with that ID.` });
     }
 
-    const nominationId = await knex("nominations")
-      .insert(nominationsShopData)
-      .returning("id");
+    await knex("nominations").insert(nominationsShopData);
+
+    const nomination = await knex("nominations").orderBy("id", "desc").first();
 
     items.forEach(async (item) => {
       const itemId = await knex("items")
@@ -57,12 +57,12 @@ export const addShopNomination = async (req, res) => {
         .select("id")
         .first();
 
-      const nomination = {
-        nominations_id: nominationId[0],
+      const newNomination = {
+        nominations_id: nomination.id,
         items_id: itemId.id,
       };
 
-      await knex("nominations_items").insert(nomination);
+      await knex("nominations_items").insert(newNomination);
     });
 
     const shopName = await knex("shops")
@@ -112,5 +112,33 @@ export const deleteNomination = async (req, res) => {
     res
       .status(500)
       .json({ message: `Error while deleting nomination. ${error}` });
+  }
+};
+
+export const getNominationsItems = async (req, res) => {
+  const { nominationId } = req.params;
+
+  try {
+    const nominationsItemsData = await knex("nominations_items").where({
+      nominations_id: nominationId,
+    });
+
+    if (!nominationsItemsData) {
+      return res
+        .status(404)
+        .json({ message: `No nominations found with that ID.` });
+    }
+
+    if (!nominationsItemsData.length) {
+      res.status(404).json({
+        message: "There are no items associated with this nominations.",
+      });
+    }
+
+    res.status(200).json(nominationsItemsData);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: `Error while fetching nomination details. ${error}` });
   }
 };
