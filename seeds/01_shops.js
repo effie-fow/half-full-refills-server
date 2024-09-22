@@ -8,6 +8,7 @@ export async function seed(knex) {
       street_name: "Warpole Terrace",
       city: "Brighton",
       postcode: "BN1 1AE",
+      coordinates: "[-0.150045, 50.831488]",
       is_active: "1",
     },
     {
@@ -17,6 +18,7 @@ export async function seed(knex) {
       street_name: "Ruthven Place",
       city: "Brighton",
       postcode: "BN1 1AE",
+      coordinates: "[-0.139136, 50.82552]",
       is_active: "1",
     },
     {
@@ -26,6 +28,7 @@ export async function seed(knex) {
       street_name: "College Place",
       city: "Brighton",
       postcode: "BN1 1AE",
+      coordinates: "[-0.115808, 50.817313]",
       is_active: "0",
     },
     {
@@ -35,6 +38,7 @@ export async function seed(knex) {
       street_name: "Oxford Street",
       city: "Brighton",
       postcode: "BN1 1AE",
+      coordinates: "[-0.119869, 50.843273]",
       is_active: "0",
     },
     {
@@ -44,6 +48,7 @@ export async function seed(knex) {
       street_name: "Lamond",
       city: "London",
       postcode: "NW1 1AE",
+      coordinates: "[-0.097729, 51.518096]",
       is_active: "1",
     },
   ]);

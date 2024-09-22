@@ -139,13 +139,15 @@ export const deleteShop = async (req, res) => {
 };
 
 export const addShop = async (req, res) => {
-  const { name, street_number, street_name, city, postcode } = req.body;
+  const { name, street_number, street_name, city, postcode, coordinates } =
+    req.body;
 
   const newShop = {
     name: name,
     street_number: street_number,
     street_name: street_name,
     city: city,
+    coordinates: coordinates,
     postcode: postcode,
     is_active: false,
   };

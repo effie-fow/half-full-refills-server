@@ -8,7 +8,9 @@ export const filterShopsByItem = (items, queriedShopsList, matchType) => {
   const queryItems = items.split(",");
 
   for (let shop of queriedShopsList) {
-    const shopItems = shop.items;
+    const shopItems = shop.items.map((item) => {
+      return item.name;
+    });
 
     if (matchType === "exact") {
       let shopContainsAllItems = true;
@@ -54,12 +56,8 @@ export const getShopItems = async (shop) => {
 
   const shopsItemsAsObjects = await knex("items")
     .whereIn("id", shopIdsList)
-    .select("name");
+    .select("name", "formatted_name");
 
-  const shopItems = shopsItemsAsObjects.map((itemObject) => {
-    return itemObject.name;
-  });
-
-  shop.items = shopItems;
+  shop.items = shopsItemsAsObjects;
   return shop;
 };
