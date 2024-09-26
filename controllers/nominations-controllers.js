@@ -15,7 +15,7 @@ export const getShopNominations = async (req, res) => {
 
     const nominations = await knex("nominations")
       .where({ shops_id: id })
-      .select("id", "shops_id");
+      .select("id", "shops_id", "users_id");
 
     if (!nominations.length) {
       res

@@ -73,3 +73,23 @@ export const getUserDetails = async (req, res) => {
     res.status(500).json({ message: "Can't fetch user profile." });
   }
 };
+
+export const checkUserExists = async (req, res) => {
+  const { email } = req.headers;
+
+  try {
+    const user = await knex("users").where({ email: email }).first();
+
+    if (!user) {
+      res.status(200).json({ message: "New user enabled." });
+      return;
+    }
+
+    res.status(200).json({ message: "User already exists." });
+  } catch (error) {
+    res.status(404).json({
+      message:
+        "An issue was encountered whilst querying the database for the user.",
+    });
+  }
+};
