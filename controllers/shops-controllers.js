@@ -202,3 +202,29 @@ export const addShopsItems = async (req, res) => {
     });
   }
 };
+
+export const checkShopExists = async (req, res) => {
+  const { streetnumber, streetname, city } = req.headers;
+
+  try {
+    const shop = await knex("shops")
+      .where({
+        street_number: streetnumber,
+        street_name: streetname,
+        city: city,
+      })
+      .first();
+
+    if (!shop) {
+      res.status(200).json({ message: "New shop enabled." });
+      return;
+    }
+
+    res.status(200).json({ message: "Shop already exists." });
+  } catch (error) {
+    res.status(404).json({
+      message:
+        "An issue was encountered whilst querying the database for the shop.",
+    });
+  }
+};
