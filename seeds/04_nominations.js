@@ -26,5 +26,47 @@ export async function seed(knex) {
       users_id: 3,
       shops_id: 4,
     },
+    {
+      id: 6,
+      users_id: 3,
+      shops_id: 6,
+    },
+    {
+      id: 7,
+      users_id: 3,
+      shops_id: 6,
+    },
+    {
+      id: 8,
+      users_id: 3,
+      shops_id: 6,
+    },
+
+    {
+      id: 9,
+      users_id: 3,
+      shops_id: 6,
+    },
+    {
+      id: 10,
+      users_id: 3,
+      shops_id: 7,
+    },
+    {
+      id: 11,
+      users_id: 3,
+      shops_id: 7,
+    },
+    {
+      id: 12,
+      users_id: 3,
+      shops_id: 7,
+    },
+
+    {
+      id: 13,
+      users_id: 3,
+      shops_id: 7,
+    },
   ]);
 }

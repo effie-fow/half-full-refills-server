@@ -121,5 +121,37 @@ export async function seed(knex) {
       nominations_id: 5,
       items_id: 18,
     },
+    {
+      nominations_id: 6,
+      items_id: 1,
+    },
+    {
+      nominations_id: 7,
+      items_id: 1,
+    },
+    {
+      nominations_id: 8,
+      items_id: 1,
+    },
+    {
+      nominations_id: 9,
+      items_id: 1,
+    },
+    {
+      nominations_id: 10,
+      items_id: 1,
+    },
+    {
+      nominations_id: 11,
+      items_id: 1,
+    },
+    {
+      nominations_id: 12,
+      items_id: 1,
+    },
+    {
+      nominations_id: 13,
+      items_id: 1,
+    },
   ]);
 }
